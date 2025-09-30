@@ -27,10 +27,12 @@ def add_recipe():
     elif form.is_submitted():
         flash('Recipe with this title already exist', 'danger')
     return render_template('add.html', form=form)
+
 @recipes_bp.route('/recipe/<int:id>')
 def recipe(id):
     r = Recipe.query.get_or_404(id)
     return render_template('recipe.html', recipe=r)
+
 @recipes_bp.route('/delete/<int:id>', methods=['POST'])
 def delete_recipe(id):
     recipe = Recipe.query.get_or_404(id)
@@ -38,6 +40,7 @@ def delete_recipe(id):
     db.session.commit()
     flash('Recipe deleted successfully', 'success')
     return redirect(url_for('recipes.index'))
+
 @recipes_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit_recipe(id):
     recipe = Recipe.query.get_or_404(id)
