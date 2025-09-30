@@ -17,21 +17,36 @@ def add_recipe():
     if form.validate_on_submit():
         new_recipe = Recipe(
             title=form.title.data,
-            ingredients=form.description.data,
+            ingredients=form.ingredients.data,
             instructions=form.instructions.data
         )
         db.session.add(new_recipe)
         db.session.commit()
-        flash('Recipe added successfully')
+        flash('Recipe added successfully', 'success')
         return redirect(url_for('recipes.index'))
     elif form.is_submitted():
-        flash('Please check the fields - something is wrong', 'danger')
+        flash('Recipe with this title already exist', 'danger')
     return render_template('add.html', form=form)
-
+@recipes_bp.route('/recipe/<int:id>')
+def recipe(id):
+    r = Recipe.query.get_or_404(id)
+    return render_template('recipe.html', recipe=r)
 @recipes_bp.route('/delete/<int:id>', methods=['POST'])
 def delete_recipe(id):
     recipe = Recipe.query.get_or_404(id)
     db.session.delete(recipe)
     db.session.commit()
-    flash('Recipe deleted successfully')
+    flash('Recipe deleted successfully', 'success')
     return redirect(url_for('recipes.index'))
+@recipes_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit_recipe(id):
+    recipe = Recipe.query.get_or_404(id)
+    form = RecipeForm(obj=recipe)
+    if form.validate_on_submit():
+        recipe.title = form.title.data
+        recipe.ingredients = form.ingredients.data
+        recipe.instructions = form.instructions.data
+        db.session.commit()
+        flash('Recipe updated successfully.', 'success')
+        return redirect(url_for('recipes.index'))
+    return render_template('edit.html', form=form, recipe=recipe)
