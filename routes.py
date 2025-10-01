@@ -1,4 +1,3 @@
-import flask
 from flask import Blueprint, render_template, flash, redirect, request, url_for
 from db_config import db
 from forms import RecipeForm
@@ -46,10 +45,10 @@ def edit_recipe(id):
     recipe = Recipe.query.get_or_404(id)
     form = RecipeForm(obj=recipe)
     if form.validate_on_submit():
-        recipe.title = form.title.data
-        recipe.ingredients = form.ingredients.data
-        recipe.instructions = form.instructions.data
+        form.populate_obj(recipe)
         db.session.commit()
         flash('Recipe updated successfully.', 'success')
         return redirect(url_for('recipes.index'))
+    elif form.is_submitted():
+        flash('Please add "(Updated)" in the end of the title, or whatever you want', 'warning')
     return render_template('edit.html', form=form, recipe=recipe)
