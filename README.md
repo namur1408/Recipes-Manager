@@ -1,8 +1,7 @@
-# Recipies Manager
+# Recipes Manager
 
 A simple Flask web application for managing recipes.
 Users can add, view, edit, and delete recipes. The project uses Flask, SQLAlchemy, and WTForms with Bootstrap for styling.
-
 
 
 
