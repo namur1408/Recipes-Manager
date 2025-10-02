@@ -10,7 +10,7 @@ Users can add, view, edit, and delete recipes. The project uses Flask, SQLAlchem
 1. Clone the repository:
 
 ```bash
-  git clone https://github.com/your-username/recipes-app.git
+  git clone https://github.com/your-username/recipes-app.git](https://github.com/namur1408/Recipes-Manager
   cd recipes-app
 ```
 2. Install dependencies:
